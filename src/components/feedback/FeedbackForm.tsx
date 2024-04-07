@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MAX_CHARACTERS } from "../lib/constans";
+import { MAX_CHARACTERS } from "../../lib/constans";
 
 type FeedbackFormProps = {
   onAddToList: (text: string) => void;
@@ -7,9 +7,24 @@ type FeedbackFormProps = {
 
 export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
   const [text, setText] = useState("");
+  const [showValidIndicator, setShowValidIndicator] = useState(false);
+  const [showInvalidIndicator, setShowInvalidIndicator] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (text.includes("#") && text.length >= 5) {
+      setShowValidIndicator(true);
+      setTimeout(() => {
+        setShowValidIndicator(false);
+      }, 3000);
+    } else {
+      setShowInvalidIndicator(true);
+      setTimeout(() => {
+        setShowInvalidIndicator(false);
+      }, 3000);
+      return;
+    }
     onAddToList(text);
     setText("");
   };
@@ -20,7 +35,12 @@ export default function FeedbackForm({ onAddToList }: FeedbackFormProps) {
     setText(newText);
   };
   return (
-    <form onSubmit={handleSubmit} className="form">
+    <form
+      onSubmit={handleSubmit}
+      className={`form ${showValidIndicator && "form--valid"} ${
+        showInvalidIndicator && "form--invalid"
+      }`}
+    >
       <textarea
         value={text}
         onChange={handleChange}

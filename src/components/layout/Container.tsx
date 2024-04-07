@@ -1,5 +1,5 @@
-import { ContainerProps } from "../lib/types";
-import FeedbackList from "./FeedbackList";
+import { ContainerProps } from "../../lib/types";
+import FeedbackList from "../feedback/FeedbackList";
 import Header from "./Header";
 
 export default function Container({
